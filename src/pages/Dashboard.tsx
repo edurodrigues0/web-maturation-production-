@@ -6,6 +6,7 @@ import { Section } from '../components/Section'
 import { MetricYesterday } from '../components/MetricYesterday';
 
 export function Dashboard() {
+
   const data = [
     {
       name: 'Page A',

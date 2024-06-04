@@ -2,8 +2,15 @@ import { Divider, Text, VStack } from "@chakra-ui/react"
 import * as Button from "./Button"
 import { FaUsers, FaChartBar, FaClipboardList, FaPowerOff } from "react-icons/fa"
 import { SlSpeedometer } from "react-icons/sl"
+import { useAuth } from "../hooks/useAuth"
 
 export function Section() {
+  const { signOut } = useAuth()
+
+  function handleSignOut() {
+    signOut()
+  }
+
   return (
     <VStack
       p="2rem"
@@ -41,6 +48,7 @@ export function Section() {
       <Divider borderColor="purple.500" />
 
       <Button.Root
+        onClick={handleSignOut}
         leftIcon={<FaPowerOff size={18} />}
       >
         <Text>Sair</Text>

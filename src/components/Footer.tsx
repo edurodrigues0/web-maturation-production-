@@ -5,7 +5,7 @@ export function Footer() {
     <Box
       as="footer"
       w="100%"
-      mt="2rem"
+      mt="1rem"
       display="flex"
       justifyContent="center"
     >

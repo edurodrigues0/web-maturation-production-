@@ -1,7 +1,8 @@
-import { Avatar, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { Avatar, Flex, Heading, Link, Text } from '@chakra-ui/react'
+import { useAuth } from '../hooks/useAuth'
 
 export function Header() {
-  const isValidToken = true
+  const { admin } = useAuth()
 
   return (
     <Flex
@@ -20,12 +21,15 @@ export function Header() {
       </Heading>
 
       {
-        isValidToken ? (
+        admin ? (
           <Flex
             alignItems="center"
             gap="0.5rem"
           >
-            <Avatar bg="purple.700" />
+            <Avatar 
+              bg="purple.700"
+              name={admin.name}
+            />
             <Flex
               flexDir="column"
               alignItems="flex-start"
@@ -35,7 +39,7 @@ export function Header() {
                 fontWeight="bold"
                 fontSize="base"
               >
-                Eduardo Rodrigues
+                {admin.name}
               </Text>
               <Text 
                 as="span"
@@ -47,13 +51,21 @@ export function Header() {
             </Flex>
           </Flex>
         ) : (
-          <Button
-            w="8rem"
-            h="2.25rem"
-            colorScheme="purple"
+          <Link
+            px="3rem"
+            py="0.5rem"
+            bg="purple.500"
+            borderRadius="8px"
+            color="gray.300"
+            fontWeight="bold"
+            _hover={{
+              textDecor: "none",
+              bg: "purple.600"
+            }}
+            href="/login"
           >
             Login
-          </Button>
+          </Link>
         )}
     </Flex>
   )
