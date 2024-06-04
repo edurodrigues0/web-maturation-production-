@@ -57,9 +57,9 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
 
       api.defaults.headers.common.Authorization = `Bearer ${token}`
       setData({ admin, token })
-    } catch (error: Error) {
-      if (error.response) {
-        alert(error.response.data.message)
+    } catch (error) {
+      if (error) {
+        alert(error)
       } else {
         alert('Não foi possível se autenticar.')
       }
