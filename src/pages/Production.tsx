@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-import { Box, Button, Checkbox, CheckboxGroup, Divider, FormControl, FormErrorMessage, FormLabel, Heading, Input, Stack } from "@chakra-ui/react"
+import { Box, Button, Checkbox, CheckboxGroup, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Stack, Textarea } from "@chakra-ui/react"
 import { Layout } from "../layout"
 
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -23,21 +23,29 @@ const activitiesList = [
 ]
 
 type ProductionFormData = {
-  quantityProduced?: number | null
-  litersOfProduct?: number | null
+  quantityProducedOnAlcool?: number | null
+  quantityProducedOnDoubleSidedGlue?: number | null
+  quantityProducedOnFinaltrim?: number | null
+  litersOfAcool?: number | null
+  litersOfDoubleSidedGlue?: number | null
+  litersOfFinalTrim?: number | null
   realizedIn: Date
   activitiesArray: (string | undefined)[]
   colaboratorId: number
-  // observation?: string
+  observation?: string
 }
 
 const validationFormSchema = yup.object().shape({
-  quantityProduced: yup.number().optional().notRequired().default(null),
-  litersOfProduct: yup.number().optional().notRequired().default(null),
+  quantityProducedOnAlcool: yup.number().optional().notRequired().default(null),
+  quantityProducedOnDoubleSidedGlue: yup.number().optional().notRequired().default(null),
+  quantityProducedOnFinaltrim: yup.number().optional().notRequired().default(null),
+  litersOfAcool: yup.number().optional().notRequired().default(null),
+  litersOfDoubleSidedGlue: yup.number().optional().notRequired().default(null),
+  litersOfFinalTrim: yup.number().optional().notRequired().default(null),
   realizedIn: yup.date().required("Informe a data que foi realizado"),
   activitiesArray: yup.array().of(yup.string()).required("Selecione uma atividade"),
   colaboratorId: yup.number().min(3).required("Informe sua matricula"),
-  // observation: yup.string().optional()
+  observation: yup.string().optional()
 })
 
 export function Production() {
@@ -51,7 +59,22 @@ export function Production() {
   })
 
   const registerProduction = useMutation(async (production: ProductionFormData) => {
-    const response = await api.post('productions', production)
+    const productionBodyResponse = {
+        minilitersOfAlcool: production.litersOfAcool && production.litersOfAcool * 1000, // miniliters = 1L * 1000
+        minilitersOfDoubleSidedGlue: production.litersOfDoubleSidedGlue && production.litersOfDoubleSidedGlue, // miniliters = 1L * 1000
+        minilitersOfFinalTrim: production.litersOfFinalTrim && production.litersOfFinalTrim * 1000, // miniliters = 1L * 1000
+        quantityProducedOnAlcool: production.quantityProducedOnAlcool,
+        quantityProducedOnSidedGlue: production.quantityProducedOnDoubleSidedGlue,
+        quantityProducedOnFinalTrim: production.quantityProducedOnFinaltrim,
+        realizedIn: production.realizedIn,
+        activitiesArray: production.activitiesArray,
+        colaboratorId: production.colaboratorId,
+    }
+
+    console.log("body formated: ",productionBodyResponse)
+    console.log("production: ", production)
+
+    const response = await api.post('productions', productionBodyResponse)
 
     return response.data.production
   }, {
@@ -68,7 +91,7 @@ export function Production() {
   return (
     <Layout>
       <Box
-        w="30rem"
+        w={["20rem", "20rem", "30rem"]}
         bg="gray.200"
         mx="auto"
         mt="1rem"
@@ -97,27 +120,85 @@ export function Production() {
           as="form"
           onSubmit={handleSubmit(handleRegisterProduction)}
         >
-          <NumberInput
-            title='quantityProduced'
-            label='Quantidade de pçs'
-            {...register("quantityProduced")}
-            min={0}
-            max={6000}
-            step={100}
-            defaultValue={0}
-            onChange={() => {}}
-          />
+          <Flex
+            gap={["1rem", "1rem", "2rem"]}
+            flexDir={["column", "column", "row"]}
+            alignItems="flex-end"
+            justifyContent="center"
+          >
+            <NumberInput
+              title='quantityProducedOnAlcool'
+              label='Quantidade de pçs no alcool'
+              {...register("quantityProducedOnAlcool")}
+              min={0}
+              max={6000}
+              step={100}
+              defaultValue={0}
+              onChange={() => {}}
+            />
 
-          <NumberInput
-            title='litersOfProduct'
-            label='Quantidade de litros'
-            defaultValue={0}
-            {...register("litersOfProduct")}
-            min={0}
-            max={6000}
-            step={100}
-            onChange={() => {}}
-          />
+            <NumberInput
+              title='quantityProducedOnDoubleSidedGlue'
+              label='Quantidade de pçs cola dois lados'
+              {...register("quantityProducedOnDoubleSidedGlue")}
+              min={0}
+              max={6000}
+              step={100}
+              defaultValue={0}
+              onChange={() => {}}
+            />
+
+            <NumberInput
+              title='quantityProducedOnFinaltrim'
+              label='Quantidade de pçs no arremate'
+              {...register("quantityProducedOnFinaltrim")}
+              min={0}
+              max={6000}
+              step={100}
+              defaultValue={0}
+              onChange={() => {}}
+            />
+          </Flex>
+
+          <Flex
+            gap={["1rem", "1rem", "2rem"]}
+            flexDir={["column", "column", "row"]}
+            alignItems="flex-end"
+            justifyContent="center"
+          >
+           <NumberInput
+              title='litersOfAcool'
+              label='Quantidade de litros no alcool'
+              defaultValue={0}
+              {...register("litersOfAcool")}
+              min={0}
+              max={6000}
+              step={100}
+              onChange={() => {}}
+            />
+
+            <NumberInput
+              title='litersOfDoubleSidedGlue'
+              label='Quantidade de litros na cola dois lados'
+              defaultValue={0}
+              {...register("litersOfDoubleSidedGlue")}
+              min={0}
+              max={6000}
+              step={100}
+              onChange={() => {}}
+            />
+
+            <NumberInput
+              title='litersOfFinalTrim'
+              label='Quantidade de litros no arremate'
+              defaultValue={0}
+              {...register("litersOfFinalTrim")}
+              min={0}
+              max={6000}
+              step={100}
+              onChange={() => {}}
+            />
+          </Flex>
 
           <FormControl mt="1rem">
             <FormLabel htmlFor="realizedIn">
@@ -180,7 +261,7 @@ export function Production() {
             onChange={() => {}}
           />
 
-          {/* <FormControl mt="1rem">
+          <FormControl mt="1rem">
             <FormLabel htmlFor="observation">
               Observação
             </FormLabel>
@@ -190,7 +271,7 @@ export function Production() {
               resize="none"
               {...register("observation")}
             />
-          </FormControl> */}
+          </FormControl>
 
           <Button
             type="submit"

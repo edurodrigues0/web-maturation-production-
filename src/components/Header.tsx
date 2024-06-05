@@ -8,12 +8,13 @@ export function Header() {
     <Flex
       as="header"
       w="100%"
-      py='2rem'
+      py="2rem"
+      px={["2rem"]}
       alignItems="center"
       justifyContent="space-between"
     >
       <Heading
-        fontSize="3rem"
+        fontSize={["1rem", "1.125rem", "2.5rem"]}
         fontWeight="bold"
         color="purple.700"
       >
@@ -26,9 +27,12 @@ export function Header() {
             alignItems="center"
             gap="0.5rem"
           >
-            <Avatar 
+            <Avatar
+              w={["2rem", "3rem"]}
+              h={["2rem", "3rem"]}
               bg="purple.700"
               name={admin.name}
+              color="gray.200"
             />
             <Flex
               flexDir="column"
@@ -36,14 +40,15 @@ export function Header() {
               justifyContent="flex-start"
             >
               <Text
-                fontWeight="bold"
-                fontSize="base"
+                fontWeight={[400, 700]}
+                fontSize={["xs", "base", "base"]}
               >
-                {admin.name}
+                { admin.name }
               </Text>
               <Text 
                 as="span"
-                fontSize="sm"
+                fontWeight={200}
+                fontSize={["xs"]}
                 color="gray.500"
               >
                 Admin
@@ -52,11 +57,12 @@ export function Header() {
           </Flex>
         ) : (
           <Link
-            px="3rem"
-            py="0.5rem"
+            px={["1.5rem", "2.25rem", "3rem"]}
+            py={["0.25rem","0.5rem"]}
             bg="purple.500"
+            fontSize={["0.75rem", "0.75rem", "1rem"]}
             borderRadius="8px"
-            color="gray.300"
+            color="gray.100"
             fontWeight="bold"
             _hover={{
               textDecor: "none",
