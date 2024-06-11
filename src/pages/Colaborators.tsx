@@ -13,8 +13,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "react-query";
 import { queryClient } from "../services/queryClient";
 import { usePagination } from "../hooks/usePagination";
-import { Table } from "../components/Table";
 import { FiPlus } from "react-icons/fi";
+import { TableColaborators } from "../components/TableColaborators";
 
 type Colaborator = {
   id: number
@@ -115,6 +115,7 @@ export function Colaborators() {
       <Flex
         w="100%"
         h="100%"
+        px={["1rem", "1rem", "1rem"]}
       >
         <Section />
         <Flex
@@ -209,7 +210,7 @@ export function Colaborators() {
             ) 
             : (
               <>
-                <Table 
+                <TableColaborators
                   colaborators={colaborators}
                   onPrefetch={handlePrefetchColaborator}
                   onOpen={onOpen}

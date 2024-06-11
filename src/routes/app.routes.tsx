@@ -3,6 +3,8 @@ import { Dashboard } from '../pages/Dashboard'
 import { Colaborators } from '../pages/Colaborators'
 import { NotFound } from '../pages/NotFound'
 import { AuthProduction } from '../pages/AuthProduction'
+import { Tasks } from '../pages/Tasks'
+import { AuthProductionForm } from '../pages/AuthProductionForm'
 
 
 export function AppRoutes() {
@@ -11,7 +13,8 @@ export function AppRoutes() {
       <Route path="/" element={<Dashboard />} />
       <Route path="/colaboradores" element={<Colaborators />} />
       <Route path="/producao" element={<AuthProduction />} />
-      <Route path="/tarefas" element={<AuthProduction />} />
+      <Route path='/formulario' element={<AuthProductionForm />} />
+      <Route path="/tarefas" element={<Tasks />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

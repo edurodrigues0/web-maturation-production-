@@ -26,6 +26,7 @@ export const PaginationContext = createContext({} as PaginationContextData)
 
 export function PaginationContextProvider({ children }: PaginationProviderProps) {
   const [pagination, setPagination] = useState<Pagination>()
+
   const [page, setPage] = useState(() => {
     const url = new URL(window.location.toString())
 

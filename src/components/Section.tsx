@@ -16,9 +16,9 @@ export function Section() {
 
   return (
     <VStack
-      p="2rem"
+      p={["0.5rem", "1rem", "2rem"]}
       w="15rem"
-      spacing={2}
+      spacing={[1, 1, 2]}
       borderWidth="1px"
       borderColor="purple.500"
       rounded="6px"

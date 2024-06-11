@@ -1,21 +1,21 @@
 import { Button, TableContainer, Table as ChakraTable, Tbody, Td, Thead, Tr, Th } from "@chakra-ui/react"
-import { FaEdit } from "react-icons/fa"
 import { PaginationButtons } from "./PaginationButtons"
+import { CgDetailsMore } from "react-icons/cg"
 
-type Colaborator = {
+type Production = {
   id: number
-  name: string
-  isOnSector: boolean
-  createdAt: Date
+  colaboratorName: string
+  colaboratorId: string
+  realizedIn: Date
+  activities: string
 }
 
 type TableProps = {
-  colaborators: Colaborator[]
-  onPrefetch: (colaboratorId: number) => void
-  onOpen: () => void
+  productions: Production[]
+  onOpen?: () => void
 }
 
-export function Table({ colaborators, onPrefetch }: TableProps) {
+export function TableProductions({ productions, onOpen }: TableProps) {
   return (
     <TableContainer 
       p="1rem" 
@@ -29,23 +29,23 @@ export function Table({ colaborators, onPrefetch }: TableProps) {
           <Tr>
             <Th>Matricula</Th>
             <Th>Nome</Th>
-            <Th>Status</Th>
-            <Th>Criado em</Th>
-            <Th>Editar</Th>
+            <Th>Atividades</Th>
+            <Th>Realizada em</Th>
+            <Th>Detalhes</Th>
           </Tr>
         </Thead>
 
         <Tbody>
           {
-            colaborators.map((colaborator) => {
+            productions.map((production) => {
               return (
-                <Tr key={colaborator.id}>
-                  <Td>{colaborator.id}</Td>
-                  <Td>{colaborator.name}</Td>
-                  <Td>{colaborator.isOnSector ? 'Admitido' : 'Desligado'}</Td>
+                <Tr key={production.id}>
+                  <Td>{production.colaboratorId}</Td>
+                  <Td>{production.colaboratorName}</Td>
+                  <Td>{production.activities}</Td>
                   <Td>
                     {
-                      new Date(colaborator.createdAt)
+                      new Date(production.realizedIn)
                       .toLocaleDateString('pt-BR', {
                         day: '2-digit',
                         month: '2-digit',
@@ -61,9 +61,9 @@ export function Table({ colaborators, onPrefetch }: TableProps) {
                       justifyContent="center"
                       variant="ghost" 
                       colorScheme="purple"
-                      onMouseEnter={() => onPrefetch(colaborator.id)}
+                      onClick={onOpen}
                     >
-                      <FaEdit size={18} />
+                      <CgDetailsMore size={18} />
                     </Button>
                   </Td>
                 </Tr>

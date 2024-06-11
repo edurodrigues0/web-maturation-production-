@@ -4,16 +4,15 @@ type ProductionType = 'Alcool' | 'Finaltrim' | 'DoubleSidedGlue'
 
 interface MetricYesterdayProps {
   type?: ProductionType
-  averangeTotal: number
-  totalOfPieces: number
-  totalOfRegister: number
+  averangeTotal?: number
+  totalOfPieces?: number
+  totalOfRegister?: number
 }
 
 export function MetricYesterday({
   type = 'Alcool',
   averangeTotal = 0,
   totalOfPieces = 0,
-  totalOfRegister = 0,
 }: MetricYesterdayProps) {
   
   function productionType (type: ProductionType) {
@@ -29,6 +28,9 @@ export function MetricYesterday({
   }
 
   const isTypeAlcool = productionType(type)
+
+  const convertedInLiters = averangeTotal >= 1 ? averangeTotal / 1000 : 0
+  const averange = totalOfPieces / averangeTotal
 
   return (
     <Box
@@ -59,7 +61,7 @@ export function MetricYesterday({
           fontWeight="bold"
           fontSize="1.25rem"
         >
-          { averangeTotal }L
+          { convertedInLiters }L 
         </Text>
       </Flex>
 
@@ -68,7 +70,8 @@ export function MetricYesterday({
         borderColor="gray.400"
       />
 
-      <Flex 
+      <Flex
+        w="6.25rem"
         flexDir="column" 
         gap="0.5rem"
         alignItems="center"
@@ -95,7 +98,8 @@ export function MetricYesterday({
         borderColor="gray.400"
       />
 
-      <Flex 
+      <Flex
+        w="6.25rem"
         flexDir="column" 
         gap="0.5rem"
         alignItems="center"
@@ -106,14 +110,14 @@ export function MetricYesterday({
           fontSize="0.825rem"
           color="gray.500"
         >
-          Total de registros
+          Média por pç
         </Text>
 
         <Text
           fontWeight="bold"
           fontSize="1.25rem"
         >
-          { totalOfRegister }
+          { averange }L
         </Text>
       </Flex>
     </Box>
