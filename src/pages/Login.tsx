@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, IconButton, Image, Text, useBreakpointValue } from '@chakra-ui/react'
 import { Layout } from '../layout'
 
 import cheeseImage from '../assets/cheese.jpg'
@@ -9,6 +9,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
+import { IoMdReturnLeft } from 'react-icons/io'
 
 type LoginFormData = {
   email: string
@@ -23,6 +24,11 @@ const validationLoginFormSchema = yup.object().shape({
 export function Login() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
+
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    lg: true,
+  })
 
   const {
     register,
@@ -46,8 +52,7 @@ export function Login() {
       <Flex
         w="100%"
         h="100%"
-        borderRadius="lg"
-        overflow="hidden"
+        px="1rem"
       >
         <Flex
           flex={1}
@@ -104,13 +109,22 @@ export function Login() {
             >
               Entrar
             </Button>
+
+            <IconButton 
+              aria-label="Voltar"
+              colorScheme="red"
+              onClick={() => navigate('/')}
+              icon={<IoMdReturnLeft size={22} />}
+            />
           </Flex>
         </Flex>
-        <Image
-          src={cheeseImage}
-          w="50%"
-          brightness={0.7}
-        />
+        { isWideVersion && (
+          <Image
+            src={cheeseImage}
+            w="50%"
+            brightness={0.7}
+          />
+        )}
       </Flex>
     </Layout>
   )

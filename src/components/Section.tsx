@@ -1,10 +1,13 @@
-import { Divider, Text, VStack } from "@chakra-ui/react"
+import { Divider, VStack } from "@chakra-ui/react"
 import * as Button from "./Button"
 import { FaUsers, FaChartBar, FaClipboardList, FaPowerOff } from "react-icons/fa"
 import { SlSpeedometer } from "react-icons/sl"
 import { useAuth } from "../hooks/useAuth"
+import { useLocation, useNavigate } from "react-router-dom"
 
 export function Section() {
+  const location = useLocation()
+  const navigate = useNavigate()
   const { signOut } = useAuth()
 
   function handleSignOut() {
@@ -19,30 +22,38 @@ export function Section() {
       borderWidth="1px"
       borderColor="purple.500"
       rounded="6px"
+      mr="1rem"
     >
       <Button.Root
+        onClick={() => navigate('/')}
         leftIcon={<SlSpeedometer size={18} />}
-        isActive={true}
+        isActive={location.pathname === '/'}
       >
-        <Text w="full">Dashboard</Text>
+        Dashboard
       </Button.Root>
 
       <Button.Root
+        onClick={() => navigate('/colaboradores')}
         leftIcon={<FaUsers size={18} />}
+        isActive={location.pathname === '/colaboradores'}
       >
-        <Text>Colaboradores</Text>
+        Colaboradores
       </Button.Root>
 
       <Button.Root
+        onClick={() => navigate('/producao')}
         leftIcon={<FaChartBar size={18} />}
+        isActive={location.pathname === '/producao'}
       >
-        <Text>Produção</Text>
+        Produção
       </Button.Root>
 
       <Button.Root
+        onClick={() => navigate('/tarefas')}
         leftIcon={<FaClipboardList size={18} />}
+        isActive={location.pathname === '/tarefas'}
       >
-        <Text>Tarefas</Text>
+        Tarefas
       </Button.Root>
 
       <Divider borderColor="purple.500" />
@@ -51,7 +62,7 @@ export function Section() {
         onClick={handleSignOut}
         leftIcon={<FaPowerOff size={18} />}
       >
-        <Text>Sair</Text>
+        Sair
       </Button.Root>
     </VStack>
   )

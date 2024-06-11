@@ -5,13 +5,16 @@ import { Routes } from './routes'
 import { theme } from './styles/theme'
 import { queryClient } from './services/queryClient'
 import { AuthContextProvider } from './hooks/useAuth'
+import { PaginationContextProvider } from './hooks/usePagination'
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <AuthContextProvider>
-          <Routes />
+          <PaginationContextProvider>
+            <Routes />
+          </PaginationContextProvider>
         </AuthContextProvider>
       </ChakraProvider>
     </QueryClientProvider>

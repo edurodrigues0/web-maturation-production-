@@ -63,7 +63,6 @@ export function Dashboard() {
         <Flex
           flex={1}
           bg="gray.100"
-          ml="1rem"
           p="1.875rem"
           gap="1.5rem"
           flexDirection="column"
@@ -109,7 +108,7 @@ export function Dashboard() {
               h="100%"
               p="1rem"
               flexDir="column"
-              gap="1rem"
+              gap="0.5rem"
               bg="gray.200"
               rounded="6px"
             >
@@ -119,7 +118,13 @@ export function Dashboard() {
                 totalOfRegister={24}
               />
               <MetricYesterday 
-                type='GlueFilm'
+                type='DoubleSidedGlue'
+                averangeTotal={100}
+                totalOfPieces={70000}
+                totalOfRegister={24}
+              />
+              <MetricYesterday 
+                type='Finaltrim'
                 averangeTotal={60.5}
                 totalOfPieces={14000}
                 totalOfRegister={12}

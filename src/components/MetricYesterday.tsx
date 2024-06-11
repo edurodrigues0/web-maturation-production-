@@ -1,7 +1,9 @@
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 
+type ProductionType = 'Alcool' | 'Finaltrim' | 'DoubleSidedGlue'
+
 interface MetricYesterdayProps {
-  type?: 'Alcool' | 'GlueFilm'
+  type?: ProductionType
   averangeTotal: number
   totalOfPieces: number
   totalOfRegister: number
@@ -13,11 +15,25 @@ export function MetricYesterday({
   totalOfPieces = 0,
   totalOfRegister = 0,
 }: MetricYesterdayProps) {
-  const isTypeAlcool = type === 'Alcool' ? 'Total de alcool' : 'Total de cola'
+  
+  function productionType (type: ProductionType) {
+    if (type === 'DoubleSidedGlue') {
+      return 'Dois lados'
+    }
+
+    if (type === 'Finaltrim') {
+      return 'Arremate'
+    }
+
+    return 'Alcool'
+  }
+
+  const isTypeAlcool = productionType(type)
 
   return (
     <Box
-      p="1rem"
+      px="1rem"
+      py="0.5rem"
       flex={1}
       display="flex"
       rounded="6px"
@@ -27,7 +43,7 @@ export function MetricYesterday({
       <Flex
         w="6.25rem"
         flexDir="column" 
-        gap="0.5rem"
+        gap="0.25rem"
         alignItems="center"
         justifyContent="center"
       >
@@ -41,7 +57,7 @@ export function MetricYesterday({
 
         <Text
           fontWeight="bold"
-          fontSize="2rem"
+          fontSize="1.25rem"
         >
           { averangeTotal }L
         </Text>
@@ -68,7 +84,7 @@ export function MetricYesterday({
 
         <Text
           fontWeight="bold"
-          fontSize="2rem"
+          fontSize="1.25rem"
         >
           { totalOfPieces }
         </Text>
@@ -95,7 +111,7 @@ export function MetricYesterday({
 
         <Text
           fontWeight="bold"
-          fontSize="2rem"
+          fontSize="1.25rem"
         >
           { totalOfRegister }
         </Text>

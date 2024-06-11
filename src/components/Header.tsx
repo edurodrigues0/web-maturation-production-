@@ -9,12 +9,13 @@ export function Header() {
       as="header"
       w="100%"
       py="2rem"
-      px={["2rem"]}
+      px={["1rem", "1rem", "1rem"]}
       alignItems="center"
       justifyContent="space-between"
     >
       <Heading
-        fontSize={["1rem", "1.125rem", "2.5rem"]}
+        fontSize={["1rem", "1.125rem", "1.76rem"]}
+        w="15rem"
         fontWeight="bold"
         color="purple.700"
       >

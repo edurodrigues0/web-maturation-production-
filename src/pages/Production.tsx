@@ -70,10 +70,7 @@ export function Production() {
         activitiesArray: production.activitiesArray,
         colaboratorId: production.colaboratorId,
     }
-
-    console.log("body formated: ",productionBodyResponse)
-    console.log("production: ", production)
-
+    
     const response = await api.post('productions', productionBodyResponse)
 
     return response.data.production
