@@ -105,8 +105,8 @@ export function Colaborators() {
     api
       .get(`/colaborators?page=${page}&&name=${searchName}`)
       .then((response) => {
-        setColaborators(response.data.colaborators),
-          setPagination(response.data.pagination)
+        setColaborators(response.data.colaborators)
+        setPagination(response.data.pagination)
       })
       .finally(() => setIsLoading(false))
   }, [page, searchName, setPagination])
