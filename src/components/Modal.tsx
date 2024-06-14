@@ -17,9 +17,14 @@ type ModalProps = ChakraModalProps & {
 
 export function Modal({title, isOpen, onClose, children, ...rest}: ModalProps) {
   return (
-    <ChakraModal size="xs" {...rest} onClose={onClose} isOpen={isOpen}>
+    <ChakraModal 
+      size="xs" 
+      onClose={onClose}
+      isOpen={isOpen}
+      {...rest} 
+    >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg="backgroundForeground">
         <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         { children }

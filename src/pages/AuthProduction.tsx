@@ -1,15 +1,14 @@
-import {  Flex, IconButton, Skeleton, Stack} from "@chakra-ui/react";
-import { Section } from "../components/Section";
-import { Layout } from "../layout";
-import { Input } from "../components/Form/Input";
-import { api } from "../services/api";
-import { ChangeEvent, useEffect, useState } from "react";
+import { Button, Flex } from '@chakra-ui/react'
+import { Layout } from '../layout'
+import { api } from '../services/api'
+import { ChangeEvent, useEffect, useState } from 'react'
 
-import { usePagination } from "../hooks/usePagination";
-import { TableProductions } from "../components/TableProductions";
-import { FiPlus } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
-
+import { usePagination } from '../hooks/usePagination'
+import { TableProductions } from '../components/TableProductions'
+import { FiPlus } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
+import { SideMenu } from '../components/SideMenu'
+import { Header } from '../components/Header'
 
 type Production = {
   id: number
@@ -45,12 +44,13 @@ export function AuthProduction() {
 
   useEffect(() => {
     setIsLoading(true)
-    api.get(
-      `/productions?page=${page}&&realizedIn=${searchRealizedIn}`
-    ).then((response) => {
-      setProductions(response.data.productions),
-      setPagination(response.data.pagination)
-    }).finally(() => setIsLoading(false))
+    api
+      .get(`/productions?page=${page}&&realizedIn=${searchRealizedIn}`)
+      .then((response) => {
+        setProductions(response.data.productions),
+          setPagination(response.data.pagination)
+      })
+      .finally(() => setIsLoading(false))
   }, [page, searchRealizedIn, setPagination])
 
   function goToProductionForm() {
@@ -59,62 +59,26 @@ export function AuthProduction() {
 
   return (
     <Layout>
-      <Flex
-        w="100%"
-        h="100%"
-        px={["1rem", "1rem", "1rem"]}
-      >
-        <Section />
-        <Flex
-          flex={1}
-          borderRadius="6px"
-          overflow="hidden"
-          borderWidth="2px"
-          borderColor="purple.500"
-          flexDirection="column"
-        >
-          <Flex
-            w="100%"
-            h="5rem"
-            alignItems="center"
-            justifyContent="center"
-            px="1rem"
-            gap="1rem"
-          >
-            <Input
-              onChange={onSearchInputChanged}
-              title="Search"
-              placeholder="Procurar"
-              type="date"
-            />
+      <Flex w="100%" h="100%">
+        <SideMenu />
 
-            <IconButton
-              aria-label="Novo colaborador"
-              icon={<FiPlus size={24} />}
-              px="2rem"
-              mt="1rem"
-              fontSize="0.725rem"
-              colorScheme="purple"
+        <Flex flex={1} p="1.875rem" gap="1.5rem" flexDirection="column">
+          <Header
+            title="Produção"
+            isDateInput
+            onSearch={onSearchInputChanged}
+          />
+          <Flex w="100%" alignItems="center" justifyContent="flex-start">
+            <Button
+              rightIcon={<FiPlus size={18} />}
+              colorScheme="teal"
               onClick={goToProductionForm}
-            />
+            >
+              Adicionar novo
+            </Button>
           </Flex>
 
-          {
-            isLoading ? (
-              <Stack
-                p="1rem"
-              >
-                <Skeleton height="3rem" />
-                <Skeleton height="3rem" />
-                <Skeleton height="3rem" />
-              </Stack>
-            ) 
-            : (
-              <TableProductions
-                productions={productions}
-              />
-            )
-          }
+          <TableProductions productions={productions} />
         </Flex>
       </Flex>
     </Layout>

@@ -1,11 +1,11 @@
-import { Divider, VStack } from "@chakra-ui/react"
+import { Divider, Heading, VStack } from "@chakra-ui/react"
 import * as Button from "./Button"
 import { FaUsers, FaChartBar, FaClipboardList, FaPowerOff } from "react-icons/fa"
 import { SlSpeedometer } from "react-icons/sl"
 import { useAuth } from "../hooks/useAuth"
 import { useLocation, useNavigate } from "react-router-dom"
 
-export function Section() {
+export function SideMenu() {
   const location = useLocation()
   const navigate = useNavigate()
   const { signOut } = useAuth()
@@ -16,14 +16,14 @@ export function Section() {
 
   return (
     <VStack
-      p={["0.5rem", "1rem", "2rem"]}
-      w="15rem"
+      py="4.25rem"
+      px={["0.5rem", "1rem", "3rem"]}
+      w="20rem"
       spacing={[1, 1, 2]}
-      borderWidth="1px"
-      borderColor="purple.500"
-      rounded="6px"
-      mr="1rem"
     >
+      <Heading alignSelf="flex-start" mb="2rem" color="heading">
+        Scala
+      </Heading>
       <Button.Root
         onClick={() => navigate('/')}
         leftIcon={<SlSpeedometer size={18} />}
@@ -56,7 +56,7 @@ export function Section() {
         Tarefas
       </Button.Root>
 
-      <Divider borderColor="purple.500" />
+      <Divider borderColor="primary" />
 
       <Button.Root
         onClick={handleSignOut}

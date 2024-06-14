@@ -1,15 +1,15 @@
-import { 
-  NumberInput as ChakraNumberInput, 
-  NumberInputProps as ChakraInputProps, 
+import {
+  NumberInput as ChakraNumberInput,
+  NumberInputProps as ChakraInputProps,
   InputProps as ChakraInputBaseProps,
   Input as ChakraInputBase,
-  FormControl, 
-  FormLabel, 
-  FormErrorMessage, 
-  NumberInputField, 
-  NumberInputStepper, 
-  NumberIncrementStepper, 
-  NumberDecrementStepper, 
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react'
 import { ForwardRefRenderFunction, forwardRef } from 'react'
 
@@ -27,55 +27,45 @@ interface InputBaseProps extends ChakraInputBaseProps {
   error?: FieldError
 }
 
-const NumberInputBase: ForwardRefRenderFunction<HTMLInputElement, NumberInputProps> 
-  = ({ title, label, error = null, ...rest}, ref) => {
-    return (
-      <FormControl isInvalid={!!error} mt="1rem">
-        {!!label && <FormLabel htmlFor={title}>{ label }</FormLabel>}
+const NumberInputBase: ForwardRefRenderFunction<
+  HTMLInputElement,
+  NumberInputProps
+> = ({ title, label, error = null, ...rest }, ref) => {
+  return (
+    <FormControl isInvalid={!!error} mt="1rem">
+      {!!label && <FormLabel htmlFor={title}>{label}</FormLabel>}
 
-        <ChakraNumberInput
-          id={title}
-          {...rest}
-          ref={ref}
-          borderColor="gray.400"
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </ChakraNumberInput>
+      <ChakraNumberInput id={title} {...rest} ref={ref} borderColor="gray.400">
+        <NumberInputField />
+        <NumberInputStepper>
+          <NumberIncrementStepper color="#fff" />
+          <NumberDecrementStepper color="#fff" />
+        </NumberInputStepper>
+      </ChakraNumberInput>
 
-        {!!error && (
-          <FormErrorMessage mt="0.5rem">
-            {error.message}
-          </FormErrorMessage>
-        )}
-      </FormControl>
-    )
-  }
+      {!!error && (
+        <FormErrorMessage mt="0.5rem">{error.message}</FormErrorMessage>
+      )}
+    </FormControl>
+  )
+}
 
-const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputBaseProps> 
-  = ({ title, label, error = null, ...rest}, ref) => {
-    return (
-      <FormControl isInvalid={!!error} mt="1rem">
-        {!!label && <FormLabel htmlFor={title}>{ label }</FormLabel>}
+const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputBaseProps> = (
+  { title, label, error = null, ...rest },
+  ref,
+) => {
+  return (
+    <FormControl isInvalid={!!error}>
+      {!!label && <FormLabel htmlFor={title}>{label}</FormLabel>}
 
-        <ChakraInputBase
-          id={title}
-          {...rest}
-          ref={ref}
-          borderColor="gray.400"
-        />
+      <ChakraInputBase id={title} {...rest} ref={ref} borderColor="gray.400" />
 
-        {!!error && (
-          <FormErrorMessage mt="0.5rem">
-            {error.message}
-          </FormErrorMessage>
-        )}
-      </FormControl>
-    )
-  }
+      {!!error && (
+        <FormErrorMessage mt="0.5rem">{error.message}</FormErrorMessage>
+      )}
+    </FormControl>
+  )
+}
 
-  export const NumberInput = forwardRef(NumberInputBase)
-  export const Input = forwardRef(InputBase)
+export const NumberInput = forwardRef(NumberInputBase)
+export const Input = forwardRef(InputBase)

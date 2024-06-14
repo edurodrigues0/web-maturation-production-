@@ -212,6 +212,7 @@ export function ProductionForm() {
           >
             {activitiesList.map((activity) => (
               <Checkbox
+                colorScheme="teal"
                 id={activity.id.toString()}
                 key={activity.id}
                 value={activity.id.toString()}
@@ -253,7 +254,7 @@ export function ProductionForm() {
         type="submit"
         w="full" 
         mt="3rem"
-        colorScheme="purple" 
+        colorScheme="teal" 
         size="lg"
         isLoading={isSubmitting}
       >

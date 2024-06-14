@@ -1,6 +1,15 @@
 import * as yup from 'yup'
 
-import { Box, Button, Flex, Heading, IconButton, Image, Text, useBreakpointValue } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  IconButton,
+  Image,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react'
 import { Layout } from '../layout'
 
 import cheeseImage from '../assets/cheese.jpg'
@@ -18,7 +27,7 @@ type LoginFormData = {
 
 const validationLoginFormSchema = yup.object().shape({
   email: yup.string().email().required('Informe seu e-mail'),
-  password: yup.string().required('Informe sua senha')
+  password: yup.string().required('Informe sua senha'),
 })
 
 export function Login() {
@@ -33,12 +42,9 @@ export function Login() {
   const {
     register,
     handleSubmit,
-    formState: {
-      errors,
-      isSubmitting,
-    },
+    formState: { errors, isSubmitting },
   } = useForm({
-    resolver: yupResolver(validationLoginFormSchema)
+    resolver: yupResolver(validationLoginFormSchema),
   })
 
   function handleSignIn(data: LoginFormData) {
@@ -49,32 +55,19 @@ export function Login() {
 
   return (
     <Layout>
-      <Flex
-        w="100%"
-        h="100%"
-        px="1rem"
-      >
+      <Flex w="100%" h="100%" px="1rem">
         <Flex
           flex={1}
           bg="blackAlpha.200"
           alignItems="center"
           justifyContent="center"
           flexDir="column"
-          p="1rem"
         >
-          <Box
-            textAlign="center"
-          >
-            <Heading
-              color="purple.700"
-              fontSize="2.5rem"
-            >
+          <Box textAlign="center">
+            <Heading color="heading" fontSize="2.5rem">
               Bem-vindo!
             </Heading>
-            <Text 
-              as="span"
-              color="gray.500"
-            >
+            <Text as="span" color="gray.400">
               Entre com suas credenciais
             </Text>
           </Box>
@@ -82,35 +75,35 @@ export function Login() {
             as="form"
             flexDir="column"
             mt="1.5rem"
-            gap="0.5rem"
+            gap="1.25rem"
             onSubmit={handleSubmit(handleSignIn)}
           >
-            <Input 
+            <Input
               title="email"
               label="Email"
               type="email"
               error={errors.email}
-              {...register("email")}
+              {...register('email')}
             />
 
-            <Input 
+            <Input
               title="password"
               label="Senha"
               type="password"
               error={errors.password}
-              {...register("password")}
+              {...register('password')}
             />
 
             <Button
               mt="1rem"
-              colorScheme="purple"
+              colorScheme="teal"
               type="submit"
               isLoading={isSubmitting}
             >
               Entrar
             </Button>
 
-            <IconButton 
+            <IconButton
               aria-label="Voltar"
               colorScheme="red"
               onClick={() => navigate('/')}
@@ -118,13 +111,7 @@ export function Login() {
             />
           </Flex>
         </Flex>
-        { isWideVersion && (
-          <Image
-            src={cheeseImage}
-            w="50%"
-            brightness={0.7}
-          />
-        )}
+        {isWideVersion && <Image src={cheeseImage} w="50%" />}
       </Flex>
     </Layout>
   )

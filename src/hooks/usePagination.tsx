@@ -1,13 +1,13 @@
-import { ReactNode, createContext, useContext, useState } from "react"
+import { ReactNode, createContext, useContext, useState } from 'react'
 
-interface Pagination {
+type Pagination = {
   currentPage: number
   totalItems: number
   totalPages: number
   itemsPerPage: number
 }
 
-interface PaginationContextData {
+type PaginationContextData = {
   goToFirstPage: () => void
   goToPreviousPage: () => void
   goToNextPage: () => void
@@ -18,13 +18,15 @@ interface PaginationContextData {
   setPagination: (data: Pagination) => void
 }
 
-interface PaginationProviderProps {
+type PaginationProviderProps = {
   children: ReactNode
 }
 
 export const PaginationContext = createContext({} as PaginationContextData)
 
-export function PaginationContextProvider({ children }: PaginationProviderProps) {
+export function PaginationContextProvider({
+  children,
+}: PaginationProviderProps) {
   const [pagination, setPagination] = useState<Pagination>()
 
   const [page, setPage] = useState(() => {
@@ -91,7 +93,7 @@ export function PaginationContextProvider({ children }: PaginationProviderProps)
         page,
       }}
     >
-      { children }
+      {children}
     </PaginationContext.Provider>
   )
 }

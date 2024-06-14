@@ -1,6 +1,6 @@
-import { Button, Flex, Heading } from "@chakra-ui/react";
-import { Layout } from "../layout";
-import { useNavigate } from "react-router-dom";
+import { Button, Flex, Heading } from '@chakra-ui/react'
+import { Layout } from '../layout'
+import { useNavigate } from 'react-router-dom'
 
 export function Tasks() {
   const navigate = useNavigate()
@@ -15,15 +15,13 @@ export function Tasks() {
         justifyContent="center"
         gap="1rem"
       >
-        <Heading>
-          Ops... Esta página está em obra, volte mais tarde! 🏗️
-        </Heading>
-        
-        <Button 
-          colorScheme="pink" 
-          w="15rem" 
+        <Heading>Ops... Esta página está em obra, volte mais tarde! 🏗️</Heading>
+
+        <Button
+          colorScheme="pink"
+          w="15rem"
           fontWeight={700}
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
         >
           Retornar
         </Button>

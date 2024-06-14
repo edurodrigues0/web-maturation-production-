@@ -1,8 +1,8 @@
-import { Box, Divider, Flex, Text } from "@chakra-ui/react";
+import { Divider, Flex, Grid, Text } from "@chakra-ui/react";
 
-type ProductionType = 'Alcool' | 'Finaltrim' | 'DoubleSidedGlue'
+type ProductionType = "Alcool" | "Finaltrim" | "DoubleSidedGlue"
 
-interface MetricYesterdayProps {
+type MetricYesterdayProps = {
   type?: ProductionType
   averangeTotal?: number
   totalOfPieces?: number
@@ -33,17 +33,13 @@ export function MetricYesterday({
   const averange = totalOfPieces / averangeTotal
 
   return (
-    <Box
-      px="1rem"
-      py="0.5rem"
-      flex={1}
-      display="flex"
+    <Grid
+      p="0.5rem"
       rounded="6px"
-      bg="gray.100"
-      gap="0.5rem"
+      bg="background"
+      templateColumns="repeat(5, 1fr)"
     >
       <Flex
-        w="6.25rem"
         flexDir="column" 
         gap="0.25rem"
         alignItems="center"
@@ -52,7 +48,7 @@ export function MetricYesterday({
         <Text 
           fontWeight="bold"
           fontSize="0.825rem"
-          color="gray.500"
+          color="text"
         >
           { isTypeAlcool }
         </Text>
@@ -67,11 +63,11 @@ export function MetricYesterday({
 
       <Divider 
         orientation="vertical"
-        borderColor="gray.400"
+        borderColor="primary"
+        mx="auto"
       />
 
       <Flex
-        w="6.25rem"
         flexDir="column" 
         gap="0.5rem"
         alignItems="center"
@@ -80,7 +76,7 @@ export function MetricYesterday({
         <Text 
           fontWeight="bold"
           fontSize="0.825rem"
-          color="gray.500"
+          color="text"
         >
           Total de pçs
         </Text>
@@ -95,11 +91,11 @@ export function MetricYesterday({
 
       <Divider 
         orientation="vertical"
-        borderColor="gray.400"
+        borderColor="primary"
+        mx="auto"
       />
 
       <Flex
-        w="6.25rem"
         flexDir="column" 
         gap="0.5rem"
         alignItems="center"
@@ -108,7 +104,7 @@ export function MetricYesterday({
         <Text 
           fontWeight="bold"
           fontSize="0.825rem"
-          color="gray.500"
+          color="text"
         >
           Média por pç
         </Text>
@@ -117,9 +113,9 @@ export function MetricYesterday({
           fontWeight="bold"
           fontSize="1.25rem"
         >
-          { averange }L
+          { averange >= 1 ? averange : 0 }L
         </Text>
       </Flex>
-    </Box>
+    </Grid>
   )
 }

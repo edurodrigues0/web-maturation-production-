@@ -1,6 +1,14 @@
-import { Button, TableContainer, Table as ChakraTable, Tbody, Td, Thead, Tr, Th } from "@chakra-ui/react"
-import { FaEdit } from "react-icons/fa"
-import { PaginationButtons } from "./PaginationButtons"
+import {
+  Button,
+  TableContainer,
+  Table as ChakraTable,
+  Tbody,
+  Td,
+  Thead,
+  Tr,
+  Th,
+} from '@chakra-ui/react'
+import { FaEdit } from 'react-icons/fa'
 
 type Colaborator = {
   id: number
@@ -11,20 +19,12 @@ type Colaborator = {
 
 type TableProps = {
   colaborators: Colaborator[]
-  onPrefetch: (colaboratorId: number) => void
-  onOpen: () => void
 }
 
-export function TableColaborators({ colaborators, onPrefetch }: TableProps) {
+export function TableColaborators({ colaborators }: TableProps) {
   return (
-    <TableContainer 
-      p="1rem" 
-      h="100%"
-      display="flex"
-      flexDir="column"
-      justifyContent="space-between"
-    >
-      <ChakraTable variant="striped" colorScheme="purple">
+    <TableContainer px="1rem" mt="1rem">
+      <ChakraTable size="md">
         <Thead>
           <Tr>
             <Th>Matricula</Th>
@@ -34,48 +34,30 @@ export function TableColaborators({ colaborators, onPrefetch }: TableProps) {
             <Th>Editar</Th>
           </Tr>
         </Thead>
-
         <Tbody>
-          {
-            colaborators.map((colaborator) => {
-              return (
-                <Tr key={colaborator.id}>
-                  <Td>{colaborator.id}</Td>
-                  <Td>{colaborator.name}</Td>
-                  <Td px="2.5rem">
-                    {colaborator.isOnSector ? '🟢' : '🔴'}
-                  </Td>
-                  <Td>
-                    {
-                      new Date(colaborator.createdAt)
-                      .toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                      })
-                    }
-                  </Td>
-                  <Td>
-                    <Button
-                      p="1rem"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      variant="ghost" 
-                      colorScheme="purple"
-                      onMouseEnter={() => onPrefetch(colaborator.id)}
-                    >
-                      <FaEdit size={18} />
-                    </Button>
-                  </Td>
-                </Tr>
-              )
-            })
-          }
+          {colaborators.map((colaborator) => {
+            return (
+              <Tr key={colaborator.id}>
+                <Td>{colaborator.id}</Td>
+                <Td>{colaborator.name}</Td>
+                <Td>{colaborator.isOnSector ? 'Sim' : 'Nao'}</Td>
+                <Td>
+                  {new Date(colaborator.createdAt).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
+                </Td>
+                <Td>
+                  <Button size="sm">
+                    <FaEdit />
+                  </Button>
+                </Td>
+              </Tr>
+            )
+          })}
         </Tbody>
       </ChakraTable>
-
-      <PaginationButtons />
     </TableContainer>
   )
 }

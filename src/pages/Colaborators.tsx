@@ -1,20 +1,27 @@
-import { Button, Flex, IconButton, ModalBody, ModalFooter, Skeleton, Stack, useDisclosure } from "@chakra-ui/react";
-import { Section } from "../components/Section";
-import { Layout } from "../layout";
-import { Input, NumberInput } from "../components/Form/Input";
-import { api } from "../services/api";
-import { ChangeEvent, useEffect, useState } from "react";
-import { Modal } from "../components/Modal";
-
+import {
+  Button,
+  Flex,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from '@chakra-ui/react'
+import { Layout } from '../layout'
+import { Input, NumberInput } from '../components/Form/Input'
+import { api } from '../services/api'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { Modal } from '../components/Modal'
 
 import * as yup from 'yup'
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "react-query";
-import { queryClient } from "../services/queryClient";
-import { usePagination } from "../hooks/usePagination";
-import { FiPlus } from "react-icons/fi";
-import { TableColaborators } from "../components/TableColaborators";
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from 'react-query'
+import { queryClient } from '../services/queryClient'
+import { usePagination } from '../hooks/usePagination'
+import { FiPlus } from 'react-icons/fi'
+import { TableColaborators } from '../components/TableColaborators'
+import { SideMenu } from '../components/SideMenu'
+import { Header } from '../components/Header'
+import { Pagination } from '../components/Pagination'
 
 type Colaborator = {
   id: number
@@ -29,18 +36,18 @@ type ColaboratorFormData = {
 }
 
 const validationFormSchema = yup.object().shape({
-  colaboratorId: yup.number().min(3).required("Informe a matricula"),
-  colaboratorName: yup.string().required("Informe o nome do colaborador")
+  colaboratorId: yup.number().min(3).required('Informe a matricula'),
+  colaboratorName: yup.string().required('Informe o nome do colaborador'),
 })
 
 export function Colaborators() {
   const {
     reset,
-    register, 
+    register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
   } = useForm({
-    resolver: yupResolver(validationFormSchema)
+    resolver: yupResolver(validationFormSchema),
   })
   const [searchName, setSearchName] = useState(() => {
     const url = new URL(window.location.href)
@@ -60,30 +67,34 @@ export function Colaborators() {
   useEffect(() => {
     const url = new URL(window.location.href)
     url.searchParams.set('name', searchName)
-    window.history.pushState({}, "", url)
+    window.history.pushState({}, '', url)
   }, [searchName])
 
   function onSearchInputChanged(event: ChangeEvent<HTMLInputElement>) {
     setSearchName(event.target.value)
   }
 
-  const createColaborator = useMutation(async (colaborator: ColaboratorFormData) => {
-    const colaboratorBodyResponse = {
-      id: colaborator.colaboratorId,
-      name: colaborator.colaboratorName,
-    }
+  const createColaborator = useMutation(
+    async (colaborator: ColaboratorFormData) => {
+      const colaboratorBodyResponse = {
+        id: colaborator.colaboratorId,
+        name: colaborator.colaboratorName,
+      }
 
-    const response = await api.post('colaborators', colaboratorBodyResponse)
+      const response = await api.post('colaborators', colaboratorBodyResponse)
 
-    return response.data.colaborator
-  }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['colaborators', page, searchName])
-    }
-  })
+      return response.data.colaborator
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['colaborators', page, searchName])
+      },
+    },
+  )
 
-  const handleCreateColaborator: SubmitHandler<ColaboratorFormData> 
-  = async (data: ColaboratorFormData) => {
+  const handleCreateColaborator: SubmitHandler<ColaboratorFormData> = async (
+    data: ColaboratorFormData,
+  ) => {
     await createColaborator.mutateAsync(data)
     reset()
     onClose()
@@ -91,96 +102,60 @@ export function Colaborators() {
 
   useEffect(() => {
     setIsLoading(true)
-    api.get(
-      `/colaborators?page=${page}&&name=${searchName}`
-    ).then((response) => {
-      setColaborators(response.data.colaborators),
-      setPagination(response.data.pagination)
-    }).finally(() => setIsLoading(false))
+    api
+      .get(`/colaborators?page=${page}&&name=${searchName}`)
+      .then((response) => {
+        setColaborators(response.data.colaborators),
+          setPagination(response.data.pagination)
+      })
+      .finally(() => setIsLoading(false))
   }, [page, searchName, setPagination])
-
-  async function handlePrefetchColaborator(colaboratorId: number) {
-    await queryClient.prefetchQuery(['colaborator', colaboratorId], async () => {
-      const response = await api.get(`/colaborators/${colaboratorId}`)
-
-      console.log('response:', response.data)
-      return response.data
-    }, {
-      staleTime: 1000 * 60 * 10 // 10 minutes
-    })
-  }
 
   return (
     <Layout>
-      <Flex
-        w="100%"
-        h="100%"
-        px={["1rem", "1rem", "1rem"]}
-      >
-        <Section />
-        <Flex
-          flex={1}
-          borderRadius="6px"
-          overflow="hidden"
-          borderWidth="2px"
-          borderColor="purple.500"
-          flexDirection="column"
-        >
-          <Flex
-            w="100%"
-            h="5rem"
-            alignItems="center"
-            justifyContent="center"
-            px="1rem"
-            gap="1rem"
-          >
-            <Input
-              onChange={onSearchInputChanged}
-              title="Search"
-              placeholder="Procurar"
-            />
+      <Flex w="100%" h="100%">
+        <SideMenu />
 
-            <IconButton
-              aria-label="Novo colaborador"
-              icon={<FiPlus size={24} />}
-              isDisabled={isOpen}
-              px="2rem"
-              mt="1rem"
-              fontSize="0.725rem"
-              colorScheme="purple"
-              onClick={() => onOpen()}
-            />
-
+        <Flex flex={1} p="1.875rem" gap="1.5rem" flexDirection="column">
+          <Header title="Colaboradores" onSearch={onSearchInputChanged} />
+          <Flex w="100%" alignItems="center" justifyContent="flex-start">
+            <Button
+              rightIcon={<FiPlus size={18} />}
+              colorScheme="teal"
+              onClick={onOpen}
+            >
+              Adicionar novo
+            </Button>
             <Modal
-              title="Criar colaborador"
+              title="Adicionar colaborador"
               isOpen={isOpen}
               onClose={onClose}
             >
-              <form
-                onSubmit={handleSubmit(handleCreateColaborator)}
-              >
+              <form onSubmit={handleSubmit(handleCreateColaborator)}>
                 <ModalBody p="1rem">
-                  <NumberInput 
+                  <NumberInput
                     title="colaboratorId"
                     label="Matricula"
-                    {...register("colaboratorId")}
+                    {...register('colaboratorId')}
                     error={errors.colaboratorId}
                     min={0}
                     max={6000}
                     step={100}
                     defaultValue={0}
                     onChange={() => {}}
+                    mb="1rem"
                   />
-                  <Input 
+
+                  <Input
                     title="colaboratorName"
                     label="Nome"
-                    {...register("colaboratorName")}
+                    {...register('colaboratorName')}
                     error={errors.colaboratorName}
                   />
                 </ModalBody>
                 <ModalFooter gap="1rem">
-                  <Button 
-                    colorScheme="purple" 
+                  <Button
+                    colorScheme="teal"
                     type="submit"
                     isLoading={isSubmitting}
                   >
@@ -188,36 +163,18 @@ export function Colaborators() {
                   </Button>
                   <Button
                     isLoading={isSubmitting}
-                    onClick={onClose} 
+                    onClick={onClose}
                     colorScheme="red"
                   >
-                      Cancelar
+                    Cancelar
                   </Button>
                 </ModalFooter>
               </form>
             </Modal>
           </Flex>
 
-          {
-            isLoading ? (
-              <Stack
-                p="1rem"
-              >
-                <Skeleton height="3rem" />
-                <Skeleton height="3rem" />
-                <Skeleton height="3rem" />
-              </Stack>
-            ) 
-            : (
-              <>
-                <TableColaborators
-                  colaborators={colaborators}
-                  onPrefetch={handlePrefetchColaborator}
-                  onOpen={onOpen}
-                />
-              </>
-            )
-          }
+          <TableColaborators colaborators={colaborators} />
+          <Pagination />
         </Flex>
       </Flex>
     </Layout>

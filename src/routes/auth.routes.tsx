@@ -1,7 +1,6 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { Login } from "../pages/Login";
-import { Production } from "../pages/Production";
-
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { Login } from '../pages/Login'
+import { Production } from '../pages/Production'
 
 export function AuthRoutes() {
   const admin = localStorage.getItem('@maturation-production:admin')

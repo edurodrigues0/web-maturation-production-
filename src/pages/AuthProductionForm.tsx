@@ -1,23 +1,14 @@
-import { Flex } from "@chakra-ui/react";
-import { Section } from "../components/Section";
-import { Layout } from "../layout";
-import { ProductionForm } from "../components/ProductionForm";
+import { Flex } from '@chakra-ui/react'
+import { Layout } from '../layout'
+import { ProductionForm } from '../components/ProductionForm'
+import { SideMenu } from '../components/SideMenu'
 
 export function AuthProductionForm() {
   return (
     <Layout>
-      <Flex
-        w="100%"
-        h="100%"
-        px={["1rem", "1rem", "1rem"]}
-      >
-        <Section />
-        <Flex
-          px="2rem"
-          borderWidth="2px"
-          borderColor="purple.500"
-          borderRadius="6px"
-        >
+      <Flex w="100%" h="100%" p={['1rem', '1rem', '1rem']}>
+        <SideMenu />
+        <Flex p="3rem">
           <ProductionForm />
         </Flex>
       </Flex>

@@ -13,14 +13,15 @@ export function Root(props: RootProps) {
     <Button
       h="3.25rem"
       w="full"
-      colorScheme="purple"
+      colorScheme="cyan"
+      color="gray.50"
       textAlign="start"
       variant={isActive}
       _active={{
-        backgroundColor: 'purple.400'
+        backgroundColor: 'primary'
       }}
       _hover={{
-        backgroundColor: 'purple.300'
+        backgroundColor: 'teal.500'
       }}
       {...props}
     >

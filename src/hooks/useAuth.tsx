@@ -1,5 +1,11 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react"
-import { api } from "../services/api"
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import { api } from '../services/api'
 
 interface Admin {
   id: string
@@ -52,7 +58,10 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       const response = await api.post('admin/sessions', { email, password })
       const { admin, token } = response.data
 
-      localStorage.setItem('@maturation-production:admin', JSON.stringify(admin))
+      localStorage.setItem(
+        '@maturation-production:admin',
+        JSON.stringify(admin),
+      )
       localStorage.setItem('@maturation-production:token', token)
 
       api.defaults.headers.common.Authorization = `Bearer ${token}`
@@ -78,10 +87,10 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       value={{
         signIn,
         signOut,
-        admin: data?.admin
+        admin: data?.admin,
       }}
     >
-      { children }
+      {children}
     </AuthContext.Provider>
   )
 }
