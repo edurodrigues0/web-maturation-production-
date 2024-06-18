@@ -31,8 +31,6 @@ export function Production() {
     return ''
   })
   const [productions, setProductions] = useState<Production[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-
   const { page, setPagination, onCurrentPage } = usePagination()
 
   useEffect(() => {
@@ -44,14 +42,13 @@ export function Production() {
   }
 
   useEffect(() => {
-    setIsLoading(true)
     api
       .get(`/productions?page=${page}&&realizedIn=${searchRealizedIn}`)
       .then((response) => {
-        setProductions(response.data.productions),
-          setPagination(response.data.pagination)
+        setProductions(response.data.productions)
+        setPagination(response.data.pagination)
       })
-      .finally(() => setIsLoading(false))
+      .finally()
   }, [page, searchRealizedIn, setPagination])
 
   function goToProductionForm() {

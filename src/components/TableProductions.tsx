@@ -1,4 +1,3 @@
-import { CgDetailsMore } from 'react-icons/cg'
 import {
   Table,
   TableBody,
@@ -20,10 +19,9 @@ type Production = {
 
 type TableProps = {
   productions: Production[]
-  onOpen?: () => void
 }
 
-export function TableProductions({ productions, onOpen }: TableProps) {
+export function TableProductions({ productions }: TableProps) {
   return (
     <Table>
       <TableHeader>
@@ -47,7 +45,13 @@ export function TableProductions({ productions, onOpen }: TableProps) {
                 {production.colaboratorName}
               </TableCell>
               <TableCell className="h-14">{production.activities}</TableCell>
-              <TableCell className="h-14">{production.realizedIn}</TableCell>
+              <TableCell className="h-14">
+                {new Date(production.realizedIn).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                })}
+              </TableCell>
               <TableCell className="h-14">
                 <Button size="icon" variant="outline">
                   <FiMoreHorizontal size={22} />

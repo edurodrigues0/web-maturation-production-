@@ -36,7 +36,6 @@ export function Colaborators() {
     return ''
   })
   const [colaborators, setColaborators] = useState<Colaborator[]>([])
-  const [isLoading, setIsLoading] = useState(false)
 
   const { page, setPagination } = usePagination()
 
@@ -76,11 +75,10 @@ export function Colaborators() {
         setColaborators(response.data.colaborators),
           setPagination(response.data.pagination)
       })
-      .finally(() => setIsLoading(false))
+      .finally()
   }
 
   useEffect(() => {
-    setIsLoading(true)
     fetchColaborators()
   }, [page])
 
