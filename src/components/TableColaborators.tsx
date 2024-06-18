@@ -1,14 +1,13 @@
+import { FiMoreHorizontal } from 'react-icons/fi'
 import {
-  Button,
-  TableContainer,
-  Table as ChakraTable,
-  Tbody,
-  Td,
-  Thead,
-  Tr,
-  Th,
-} from '@chakra-ui/react'
-import { FaEdit } from 'react-icons/fa'
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from './ui/table'
+import { Button } from './ui/button'
 
 type Colaborator = {
   id: number
@@ -23,41 +22,42 @@ type TableProps = {
 
 export function TableColaborators({ colaborators }: TableProps) {
   return (
-    <TableContainer px="1rem" mt="1rem">
-      <ChakraTable size="md">
-        <Thead>
-          <Tr>
-            <Th>Matricula</Th>
-            <Th>Nome</Th>
-            <Th>Status</Th>
-            <Th>Criado em</Th>
-            <Th>Editar</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {colaborators.map((colaborator) => {
-            return (
-              <Tr key={colaborator.id}>
-                <Td>{colaborator.id}</Td>
-                <Td>{colaborator.name}</Td>
-                <Td>{colaborator.isOnSector ? 'Sim' : 'Nao'}</Td>
-                <Td>
-                  {new Date(colaborator.createdAt).toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
-                </Td>
-                <Td>
-                  <Button size="sm">
-                    <FaEdit />
-                  </Button>
-                </Td>
-              </Tr>
-            )
-          })}
-        </Tbody>
-      </ChakraTable>
-    </TableContainer>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-28">Matricula</TableHead>
+          <TableHead className="w-28">Nome</TableHead>
+          <TableHead className="w-28">Status</TableHead>
+          <TableHead className="w-28">Criado em</TableHead>
+          <TableHead className="w-28">Detalhes</TableHead>
+        </TableRow>
+      </TableHeader>
+
+      <TableBody>
+        {colaborators.map((colaborator) => {
+          return (
+            <TableRow key={colaborator.id}>
+              <TableCell className="h-14 font-bold">{colaborator.id}</TableCell>
+              <TableCell className="h-14">{colaborator.name}</TableCell>
+              <TableCell className="h-14 ">
+                {colaborator.isOnSector ? 'Ativo' : 'Desligado'}
+              </TableCell>
+              <TableCell className="h-14 ">
+                {new Date(colaborator.createdAt).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                })}
+              </TableCell>
+              <TableCell className="h-14">
+                <Button size="icon" variant="outline">
+                  <FiMoreHorizontal size={22} />
+                </Button>
+              </TableCell>
+            </TableRow>
+          )
+        })}
+      </TableBody>
+    </Table>
   )
 }

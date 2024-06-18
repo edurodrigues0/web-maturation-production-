@@ -1,6 +1,7 @@
-import { Avatar, Flex, Heading, Input, Link, Text } from '@chakra-ui/react'
 import { useAuth } from '../hooks/useAuth'
 import { ChangeEvent } from 'react'
+import { Input } from './ui/input'
+import { Avatar, AvatarFallback } from './ui/avatar'
 
 type HeaderProps = {
   title?: string
@@ -14,89 +15,31 @@ export function Header({
   isDateInput,
 }: HeaderProps) {
   const { admin } = useAuth()
+  const name = admin?.name.trim().slice(0, 2)
 
   return (
-    <Flex
-      as="header"
-      w="100%"
-      py="2rem"
-      px="2.75rem"
-      alignItems="center"
-      justifyContent="space-between"
-    >
-      {admin ? (
-        <>
-          <Heading fontSize="2.25rem" color="heading">
-            {title}
-          </Heading>
+    <header className="py-12 px-11 flex items-center justify-between">
+      <h1 className="text-4xl w-64 font-bold">{title}</h1>
 
-          {onSearch && (
-            <Input
-              type={isDateInput ? 'date' : 'text'}
-              title="search"
-              w="32rem"
-              placeholder="Procure aqui..."
-              py="0.875rem"
-              px="1.5rem"
-              onChange={(event) => onSearch(event)}
-            />
-          )}
-
-          <Flex alignItems="center" gap="0.5rem">
-            <Avatar
-              w={['2rem', '3.5rem']}
-              h={['2rem', '3.5rem']}
-              bg="primary"
-              name={admin.name}
-              color="text"
-            />
-            <Flex
-              flexDir="column"
-              alignItems="flex-start"
-              justifyContent="flex-start"
-            >
-              <Text fontWeight={[400, 700]} fontSize={['xs', 'base', 'base']}>
-                {admin.name}
-              </Text>
-              <Text
-                as="span"
-                fontWeight={200}
-                fontSize={['xs']}
-                color="secondary"
-              >
-                Admin
-              </Text>
-            </Flex>
-          </Flex>
-        </>
-      ) : (
-        <>
-          <Heading
-            fontSize={['1rem', '1.125rem', '2.25rem']}
-            fontWeight="bold"
-            color="heading"
-          >
-            {title}
-          </Heading>
-
-          <Link
-            px={['1.5rem', '2.25rem', '3rem']}
-            py={['0.25rem', '0.5rem']}
-            bg="primary"
-            fontSize={['0.75rem', '0.75rem', '1rem']}
-            borderRadius="8px"
-            color="text"
-            fontWeight="bold"
-            _hover={{
-              textDecor: 'none',
-              bg: 'teal.600',
-            }}
-            href="/login"
-          >
-            Login
-          </Link>
-        </>
+      {onSearch && (
+        <Input
+          onChange={onSearch}
+          type={isDateInput ? 'date' : 'text'}
+          className="w-96 py-3 px-6"
+          placeholder="Procure aqui..."
+        />
       )}
-    </Flex>
+
+      <div className="flex items-center gap-2">
+        <Avatar className="w-12 h-12 bg-background">
+          <AvatarFallback>{name}</AvatarFallback>
+        </Avatar>
+
+        <div className="flex flex-col items-start justify-start">
+          <span className="font-bold text-base">{admin?.name}</span>
+          <span className="font-thin text-xs">admin</span>
+        </div>
+      </div>
+    </header>
   )
 }

@@ -1,30 +1,35 @@
 import { ForwardRefRenderFunction, forwardRef } from 'react'
 
 import { FieldError } from 'react-hook-form'
-import { InputProps, Input as ShadcnInput } from '../ui/input'
+import { CalendarProps, Calendar as ShadcnCalendar } from '../ui/calendar'
 import { Label } from '../ui/label'
+import {
+  DayPickerDefaultProps,
+  DayPickerProps,
+  DayPickerProps,
+} from 'react-day-picker'
 
-type Props = InputProps & {
+type Props = CalendarProps & {
   title: string
   label?: string
   error?: FieldError
 }
 
-const InputBase: ForwardRefRenderFunction<HTMLInputElement, Props> = (
+const CalendarBase: ForwardRefRenderFunction<DayPickerProps, Props> = (
   { title, label, error = null, ...rest },
   ref,
 ) => {
   return (
-    <div className="grid w-full max-w-xl items-center gap-2">
+    <div className="grid w-full max-w-sm items-center gap-2">
       {!!label && (
         <Label className="ml-1 uppercase text-xs" htmlFor={title}>
           {label}
         </Label>
       )}
-      <ShadcnInput id={title} {...rest} ref={ref} />
+      <ShadcnCalendar mode="single" id={title} {...rest} ref />
       {!!error && <span className="text-red-500">{error.message}</span>}
     </div>
   )
 }
 
-export const Input = forwardRef(InputBase)
+export const Calendar = forwardRef(CalendarBase)

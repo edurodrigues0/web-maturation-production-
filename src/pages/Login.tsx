@@ -1,24 +1,15 @@
 import * as yup from 'yup'
 
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  IconButton,
-  Image,
-  Text,
-  useBreakpointValue,
-} from '@chakra-ui/react'
 import { Layout } from '../layout'
 
 import cheeseImage from '../assets/cheese.jpg'
-import { Input } from '../components/Form/Input'
 import { useAuth } from '../hooks/useAuth'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import { IoMdReturnLeft } from 'react-icons/io'
+import { Input } from '@/components/Form/Input'
+import { Button } from '@/components/ui/button'
 
 type LoginFormData = {
   email: string
@@ -33,11 +24,6 @@ const validationLoginFormSchema = yup.object().shape({
 export function Login() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
-
-  const isWideVersion = useBreakpointValue({
-    base: false,
-    lg: true,
-  })
 
   const {
     register,
@@ -55,28 +41,15 @@ export function Login() {
 
   return (
     <Layout>
-      <Flex w="100%" h="100%" px="1rem">
-        <Flex
-          flex={1}
-          bg="blackAlpha.200"
-          alignItems="center"
-          justifyContent="center"
-          flexDir="column"
-        >
-          <Box textAlign="center">
-            <Heading color="heading" fontSize="2.5rem">
-              Bem-vindo!
-            </Heading>
-            <Text as="span" color="gray.400">
-              Entre com suas credenciais
-            </Text>
-          </Box>
-          <Flex
-            as="form"
-            flexDir="column"
-            mt="1.5rem"
-            gap="1.25rem"
+      <div className="h-full w-full grid grid-cols-2 gap-4">
+        <div className="flex flex-1 items-center justify-center flex-col">
+          <div className="text-center">
+            <h1 className="text-4xl">Bem-Vindo!</h1>
+            <span className="text-gray-400">Entre com suas credenciais</span>
+          </div>
+          <form
             onSubmit={handleSubmit(handleSignIn)}
+            className="flex flex-col mt-6 gap-5"
           >
             <Input
               title="email"
@@ -94,25 +67,24 @@ export function Login() {
               {...register('password')}
             />
 
-            <Button
-              mt="1rem"
-              colorScheme="teal"
-              type="submit"
-              isLoading={isSubmitting}
-            >
+            <Button type="submit" className="mt-4" disabled={isSubmitting}>
               Entrar
             </Button>
 
-            <IconButton
-              aria-label="Voltar"
-              colorScheme="red"
-              onClick={() => navigate('/')}
-              icon={<IoMdReturnLeft size={22} />}
-            />
-          </Flex>
-        </Flex>
-        {isWideVersion && <Image src={cheeseImage} w="50%" />}
-      </Flex>
+            <Button onClick={() => navigate('/')} variant="destructive">
+              <IoMdReturnLeft size={22} />
+            </Button>
+          </form>
+        </div>
+
+        <div className="m-10 flex flex-1 rounded-md overflow-hidden">
+          <img
+            src={cheeseImage}
+            alt="imagem do queijo parmesão"
+            className="flex flex-1"
+          />
+        </div>
+      </div>
     </Layout>
   )
 }

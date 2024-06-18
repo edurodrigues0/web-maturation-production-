@@ -1,14 +1,14 @@
-import {
-  Button,
-  TableContainer,
-  Table as ChakraTable,
-  Tbody,
-  Td,
-  Thead,
-  Tr,
-  Th,
-} from '@chakra-ui/react'
 import { CgDetailsMore } from 'react-icons/cg'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from './ui/table'
+import { Button } from './ui/button'
+import { FiMoreHorizontal } from 'react-icons/fi'
 
 type Production = {
   id: number
@@ -25,56 +25,38 @@ type TableProps = {
 
 export function TableProductions({ productions, onOpen }: TableProps) {
   return (
-    <TableContainer
-      p="1rem"
-      h="100%"
-      display="flex"
-      flexDir="column"
-      justifyContent="space-between"
-    >
-      <ChakraTable>
-        <Thead>
-          <Tr>
-            <Th>Matricula</Th>
-            <Th>Nome</Th>
-            <Th>Atividades</Th>
-            <Th>Realizada em</Th>
-            <Th>Detalhes</Th>
-          </Tr>
-        </Thead>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-28">Matricula</TableHead>
+          <TableHead className="w-28">Nome</TableHead>
+          <TableHead className="w-28">Atividades</TableHead>
+          <TableHead className="w-28">Realizada em</TableHead>
+          <TableHead className="w-28">Detalhes</TableHead>
+        </TableRow>
+      </TableHeader>
 
-        <Tbody>
-          {productions.map((production) => {
-            return (
-              <Tr key={production.id}>
-                <Td>{production.colaboratorId}</Td>
-                <Td>{production.colaboratorName}</Td>
-                <Td>{production.activities}</Td>
-                <Td>
-                  {new Date(production.realizedIn).toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
-                </Td>
-                <Td>
-                  <Button
-                    p="1rem"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    variant="ghost"
-                    colorScheme="teal"
-                    onClick={onOpen}
-                  >
-                    <CgDetailsMore size={18} />
-                  </Button>
-                </Td>
-              </Tr>
-            )
-          })}
-        </Tbody>
-      </ChakraTable>
-    </TableContainer>
+      <TableBody>
+        {productions.map((production) => {
+          return (
+            <TableRow key={production.id}>
+              <TableCell className="h-14 font-bold">
+                {production.colaboratorId}
+              </TableCell>
+              <TableCell className="h-14">
+                {production.colaboratorName}
+              </TableCell>
+              <TableCell className="h-14">{production.activities}</TableCell>
+              <TableCell className="h-14">{production.realizedIn}</TableCell>
+              <TableCell className="h-14">
+                <Button size="icon" variant="outline">
+                  <FiMoreHorizontal size={22} />
+                </Button>
+              </TableCell>
+            </TableRow>
+          )
+        })}
+      </TableBody>
+    </Table>
   )
 }

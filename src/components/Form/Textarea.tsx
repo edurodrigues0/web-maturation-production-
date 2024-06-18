@@ -1,16 +1,16 @@
 import { ForwardRefRenderFunction, forwardRef } from 'react'
 
 import { FieldError } from 'react-hook-form'
-import { InputProps, Input as ShadcnInput } from '../ui/input'
 import { Label } from '../ui/label'
+import { Textarea as ShadcnTextarea, TextareaProps } from '../ui/textarea'
 
-type Props = InputProps & {
+type Props = TextareaProps & {
   title: string
   label?: string
   error?: FieldError
 }
 
-const InputBase: ForwardRefRenderFunction<HTMLInputElement, Props> = (
+const TextareaBase: ForwardRefRenderFunction<HTMLTextAreaElement, Props> = (
   { title, label, error = null, ...rest },
   ref,
 ) => {
@@ -21,10 +21,10 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, Props> = (
           {label}
         </Label>
       )}
-      <ShadcnInput id={title} {...rest} ref={ref} />
+      <ShadcnTextarea id={title} {...rest} ref={ref} />
       {!!error && <span className="text-red-500">{error.message}</span>}
     </div>
   )
 }
 
-export const Input = forwardRef(InputBase)
+export const Textarea = forwardRef(TextareaBase)

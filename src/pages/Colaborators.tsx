@@ -1,19 +1,7 @@
-import {
-  Button,
-  Flex,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from '@chakra-ui/react'
+/* eslint-disable no-sequences */
 import { Layout } from '../layout'
-import { Input, NumberInput } from '../components/Form/Input'
 import { api } from '../services/api'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { Modal } from '../components/Modal'
-
-import * as yup from 'yup'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
 import { queryClient } from '../services/queryClient'
 import { usePagination } from '../hooks/usePagination'
@@ -22,6 +10,8 @@ import { TableColaborators } from '../components/TableColaborators'
 import { SideMenu } from '../components/SideMenu'
 import { Header } from '../components/Header'
 import { Pagination } from '../components/Pagination'
+import { Button } from '@/components/ui/button'
+import { ColaboratorDialog } from '@/components/ColaboratorDialog'
 
 type Colaborator = {
   id: number
@@ -35,20 +25,7 @@ type ColaboratorFormData = {
   colaboratorName: string
 }
 
-const validationFormSchema = yup.object().shape({
-  colaboratorId: yup.number().min(3).required('Informe a matricula'),
-  colaboratorName: yup.string().required('Informe o nome do colaborador'),
-})
-
 export function Colaborators() {
-  const {
-    reset,
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(validationFormSchema),
-  })
   const [searchName, setSearchName] = useState(() => {
     const url = new URL(window.location.href)
 
@@ -62,7 +39,6 @@ export function Colaborators() {
   const [isLoading, setIsLoading] = useState(false)
 
   const { page, setPagination } = usePagination()
-  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
     const url = new URL(window.location.href)
@@ -87,96 +63,52 @@ export function Colaborators() {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['colaborators', page, searchName])
+        queryClient.invalidateQueries(['colaborators'])
+        fetchColaborators()
       },
     },
   )
 
-  const handleCreateColaborator: SubmitHandler<ColaboratorFormData> = async (
-    data: ColaboratorFormData,
-  ) => {
-    await createColaborator.mutateAsync(data)
-    reset()
-    onClose()
+  function fetchColaborators() {
+    api
+      .get(`/colaborators?page=${page}&&name=${searchName}`)
+      .then((response) => {
+        setColaborators(response.data.colaborators),
+          setPagination(response.data.pagination)
+      })
+      .finally(() => setIsLoading(false))
   }
 
   useEffect(() => {
     setIsLoading(true)
-    api
-      .get(`/colaborators?page=${page}&&name=${searchName}`)
-      .then((response) => {
-        setColaborators(response.data.colaborators)
-        setPagination(response.data.pagination)
-      })
-      .finally(() => setIsLoading(false))
-  }, [page, searchName, setPagination])
+    fetchColaborators()
+  }, [page])
 
   return (
     <Layout>
-      <Flex w="100%" h="100%">
+      <div className="flex w-full h-full">
         <SideMenu />
-
-        <Flex flex={1} p="1.875rem" gap="1.5rem" flexDirection="column">
+        <div className="flex flex-col flex-1 gap-2 relative">
           <Header title="Colaboradores" onSearch={onSearchInputChanged} />
-          <Flex w="100%" alignItems="center" justifyContent="flex-start">
-            <Button
-              rightIcon={<FiPlus size={18} />}
-              colorScheme="teal"
-              onClick={onOpen}
-            >
-              Adicionar novo
-            </Button>
-            <Modal
-              title="Adicionar colaborador"
-              isOpen={isOpen}
-              onClose={onClose}
-            >
-              <form onSubmit={handleSubmit(handleCreateColaborator)}>
-                <ModalBody p="1rem">
-                  <NumberInput
-                    title="colaboratorId"
-                    label="Matricula"
-                    {...register('colaboratorId')}
-                    error={errors.colaboratorId}
-                    min={0}
-                    max={6000}
-                    step={100}
-                    defaultValue={0}
-                    onChange={() => {}}
-                    mb="1rem"
-                  />
 
-                  <Input
-                    title="colaboratorName"
-                    label="Nome"
-                    {...register('colaboratorName')}
-                    error={errors.colaboratorName}
-                  />
-                </ModalBody>
-                <ModalFooter gap="1rem">
-                  <Button
-                    colorScheme="teal"
-                    type="submit"
-                    isLoading={isSubmitting}
-                  >
-                    Criar
-                  </Button>
-                  <Button
-                    isLoading={isSubmitting}
-                    onClick={onClose}
-                    colorScheme="red"
-                  >
-                    Cancelar
-                  </Button>
-                </ModalFooter>
-              </form>
-            </Modal>
-          </Flex>
+          <div className="flex w-full items-center justify-start pl-12">
+            <ColaboratorDialog onFunctionColaborator={createColaborator}>
+              <Button size="lg" variant="outline">
+                <FiPlus className="mr-2" size={18} />
+                Adicionar novo
+              </Button>
+            </ColaboratorDialog>
+          </div>
 
-          <TableColaborators colaborators={colaborators} />
-          <Pagination />
-        </Flex>
-      </Flex>
+          <div className="mt-4 px-12">
+            <TableColaborators colaborators={colaborators} />
+          </div>
+
+          <div className="absolute bottom-24 right-0">
+            <Pagination />
+          </div>
+        </div>
+      </div>
     </Layout>
   )
 }

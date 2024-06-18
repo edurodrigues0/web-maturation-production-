@@ -1,9 +1,36 @@
-import { Divider, Heading, VStack } from "@chakra-ui/react"
-import * as Button from "./Button"
-import { FaUsers, FaChartBar, FaClipboardList, FaPowerOff } from "react-icons/fa"
-import { SlSpeedometer } from "react-icons/sl"
-import { useAuth } from "../hooks/useAuth"
-import { useLocation, useNavigate } from "react-router-dom"
+import {
+  FaUsers,
+  FaChartBar,
+  FaClipboardList,
+  FaPowerOff,
+} from 'react-icons/fa'
+import { SlSpeedometer } from 'react-icons/sl'
+import { useAuth } from '../hooks/useAuth'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Button } from './ui/button'
+
+const NAV_LINKS_LIST = [
+  {
+    title: 'Dashboard',
+    icon: <SlSpeedometer />,
+    href: '/',
+  },
+  {
+    title: 'Colaboradores',
+    icon: <FaUsers />,
+    href: '/colaboradores',
+  },
+  {
+    title: 'Produção',
+    icon: <FaChartBar />,
+    href: '/producao',
+  },
+  {
+    title: 'Tarefas',
+    icon: <FaClipboardList />,
+    href: '/tarefas',
+  },
+]
 
 export function SideMenu() {
   const location = useLocation()
@@ -15,55 +42,30 @@ export function SideMenu() {
   }
 
   return (
-    <VStack
-      py="4.25rem"
-      px={["0.5rem", "1rem", "3rem"]}
-      w="20rem"
-      spacing={[1, 1, 2]}
-    >
-      <Heading alignSelf="flex-start" mb="2rem" color="heading">
-        Scala
-      </Heading>
-      <Button.Root
-        onClick={() => navigate('/')}
-        leftIcon={<SlSpeedometer size={18} />}
-        isActive={location.pathname === '/'}
-      >
-        Dashboard
-      </Button.Root>
+    <div className="p-12 w-80 h-full flex flex-col gap-4 border-r-2 border-slate-700">
+      <h1 className="text-4xl font-bold mb-12">Scala</h1>
 
-      <Button.Root
-        onClick={() => navigate('/colaboradores')}
-        leftIcon={<FaUsers size={18} />}
-        isActive={location.pathname === '/colaboradores'}
-      >
-        Colaboradores
-      </Button.Root>
+      {NAV_LINKS_LIST.map((button) => {
+        return (
+          <Button
+            className="gap-2"
+            onClick={() => navigate(button.href)}
+            variant={location.pathname === button.href ? 'active' : 'outline'}
+            key={button.title}
+            size="lg"
+          >
+            {button.icon}
+            {button.title}
+          </Button>
+        )
+      })}
 
-      <Button.Root
-        onClick={() => navigate('/producao')}
-        leftIcon={<FaChartBar size={18} />}
-        isActive={location.pathname === '/producao'}
-      >
-        Produção
-      </Button.Root>
+      <div className="w-full border-t-2 border-slate-700 my-4" />
 
-      <Button.Root
-        onClick={() => navigate('/tarefas')}
-        leftIcon={<FaClipboardList size={18} />}
-        isActive={location.pathname === '/tarefas'}
-      >
-        Tarefas
-      </Button.Root>
-
-      <Divider borderColor="primary" />
-
-      <Button.Root
-        onClick={handleSignOut}
-        leftIcon={<FaPowerOff size={18} />}
-      >
+      <Button className="gap-2" onClick={handleSignOut} variant="outline">
+        <FaPowerOff />
         Sair
-      </Button.Root>
-    </VStack>
+      </Button>
+    </div>
   )
 }

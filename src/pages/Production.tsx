@@ -1,30 +1,90 @@
-import { Box, Divider, Heading } from '@chakra-ui/react'
 import { Layout } from '../layout'
-import { ProductionForm } from '../components/ProductionForm'
+import { api } from '../services/api'
+import { ChangeEvent, useEffect, useState } from 'react'
+
+import { usePagination } from '../hooks/usePagination'
+import { TableProductions } from '../components/TableProductions'
+import { FiPlus } from 'react-icons/fi'
+import { SideMenu } from '../components/SideMenu'
 import { Header } from '../components/Header'
+import { Button } from '@/components/ui/button'
+import { Pagination } from '@/components/Pagination'
+import { useNavigate } from 'react-router-dom'
+
+type Production = {
+  id: number
+  colaboratorName: string
+  colaboratorId: string
+  realizedIn: Date
+  activities: string
+}
 
 export function Production() {
+  const navigate = useNavigate()
+  const [searchRealizedIn, setSearchRealizedIn] = useState(() => {
+    const url = new URL(window.location.href)
+
+    if (url.searchParams.has('name')) {
+      return url.searchParams.get('name') ?? ''
+    }
+
+    return ''
+  })
+  const [productions, setProductions] = useState<Production[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { page, setPagination, onCurrentPage } = usePagination()
+
+  useEffect(() => {
+    onCurrentPage(1)
+  }, [onCurrentPage])
+
+  function onSearchInputChanged(event: ChangeEvent<HTMLInputElement>) {
+    setSearchRealizedIn(event.target.value)
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    api
+      .get(`/productions?page=${page}&&realizedIn=${searchRealizedIn}`)
+      .then((response) => {
+        setProductions(response.data.productions),
+          setPagination(response.data.pagination)
+      })
+      .finally(() => setIsLoading(false))
+  }, [page, searchRealizedIn, setPagination])
+
+  function goToProductionForm() {
+    navigate('/formulario')
+  }
+
   return (
     <Layout>
-      <Header />
-      <Box
-        w={['20rem', '20rem', '30rem']}
-        mx="auto"
-        mt="1rem"
-        p="1.5rem"
-        rounded="8px"
-        boxShadow="2xl"
-        position="relative"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-      >
-        <Heading color="heading">Produção</Heading>
+      <div className="flex w-full h-full">
+        <SideMenu />
+        <div className="flex flex-col flex-1 gap-2 relative">
+          <Header
+            title="Produção"
+            onSearch={onSearchInputChanged}
+            isDateInput
+          />
 
-        <Divider orientation="horizontal" h="2px" bg="gray.900" mt="1rem" />
+          <div className="flex w-full items-center justify-start pl-12">
+            <Button size="lg" variant="outline" onClick={goToProductionForm}>
+              <FiPlus className="mr-2" size={18} />
+              Adicionar novo
+            </Button>
+          </div>
 
-        <ProductionForm />
-      </Box>
+          <div className="mt-4 px-12">
+            <TableProductions productions={productions} />
+          </div>
+
+          <div className="absolute bottom-24 right-0">
+            <Pagination />
+          </div>
+        </div>
+      </div>
     </Layout>
   )
 }

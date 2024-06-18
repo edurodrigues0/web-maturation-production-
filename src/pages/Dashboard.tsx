@@ -1,4 +1,3 @@
-import { Box, Flex, Heading } from '@chakra-ui/react'
 import {
   Area,
   AreaChart,
@@ -89,24 +88,18 @@ export function Dashboard() {
 
   return (
     <Layout>
-      <Flex w="100%" h="100%">
+      <div className="w-full h-full flex">
         <SideMenu />
 
-        <Flex flex={1} p="1.875rem" gap="1.5rem" flexDirection="column">
+        <div className="flex flex-col flex-1 gap-4">
           <Header title="Dashboard" />
 
-          <Flex w="100%" gap="2rem">
-            <Box
-              flex={1}
-              bg="backgroundForeground"
-              rounded="6px"
-              p="2rem"
-              w="54.875rem"
-              h="21.75rem"
-            >
-              <Heading color="heading" fontSize="1.25rem" mb="1.75rem">
-                Consumo de litros nos ultimos 12 meses
-              </Heading>
+          <div className="flex gap-8 w-full pl-12">
+            <div className="w-[54.875rem] h-80 p-8 flex flex-col flex-1 bg-slate-700 rounded-md">
+              <h1 className="text-xl mb-7">
+                Consumo de listros nos ultimos 12 meses
+              </h1>
+
               <ResponsiveContainer>
                 <AreaChart
                   width={589}
@@ -148,20 +141,9 @@ export function Dashboard() {
                   />
                 </AreaChart>
               </ResponsiveContainer>
-            </Box>
-
-            <Flex
-              w="37rem"
-              h="21.75rem"
-              p="2rem"
-              flexDir="column"
-              gap="0.5rem"
-              bg="backgroundForeground"
-              rounded="6px"
-            >
-              <Heading color="heading" fontSize="1.25rem" mb="1.75rem">
-                Consumo de ontem
-              </Heading>
+            </div>
+            <div className="w-[37rem] h-80 p-8 flex flex-col gap-2 bg-slate-700 rounded-md">
+              <h1 className="text-xl mb-7">Consumo de ontem</h1>
               <MetricYesterday
                 averangeTotal={metricsYesterday?.sumOfMinilitersOfAlcool}
                 totalOfPieces={metricsYesterday?.totalOfPiecesOfAlcool}
@@ -178,21 +160,14 @@ export function Dashboard() {
                 averangeTotal={metricsYesterday?.sumOfMinilitersOfFinalTrim}
                 totalOfPieces={metricsYesterday?.totalOfPiecesOfFinalTrim}
               />
-            </Flex>
-          </Flex>
+            </div>
+          </div>
 
-          <Flex flex={1} gap="2rem">
-            <Box
-              flex={1}
-              bg="backgroundForeground"
-              rounded="6px"
-              p="2rem"
-              w="54.875rem"
-              h="21.75rem"
-            >
-              <Heading color="heading" fontSize="1.25rem" mb="1.75rem">
+          <div className="flex flex-1 gap-8 pl-12">
+            <div className="w-[54.875rem] h-80 p-8 flex flex-col flex-1 bg-slate-700 rounded-md">
+              <h1 className="text-xl mb-7">
                 Total de peças feitas nos ultimos 12 meses
-              </Heading>
+              </h1>
               <ResponsiveContainer>
                 <BarChart
                   width={589}
@@ -227,18 +202,12 @@ export function Dashboard() {
                   />
                 </BarChart>
               </ResponsiveContainer>
-            </Box>
+            </div>
 
-            <Box
-              w="37rem"
-              h="21.75rem"
-              p="2rem"
-              bg="backgroundForeground"
-              rounded="6px"
-            >
-              <Heading fontSize="1.25rem" color="heading" mb="1.75rem">
+            <div className="w-[37rem] h-80 p-8 flex flex-col gap-2 bg-slate-700 rounded-md">
+              <h1 className="text-xl mb-7">
                 Média de litros por peças nos ultimos 12 meses
-              </Heading>
+              </h1>
               <ResponsiveContainer>
                 <AreaChart
                   width={589}
@@ -248,7 +217,7 @@ export function Dashboard() {
                     top: 0,
                     right: 0,
                     left: 0,
-                    bottom: 20,
+                    bottom: 0,
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
@@ -280,10 +249,10 @@ export function Dashboard() {
                   />
                 </AreaChart>
               </ResponsiveContainer>
-            </Box>
-          </Flex>
-        </Flex>
-      </Flex>
+            </div>
+          </div>
+        </div>
+      </div>
     </Layout>
   )
 }

@@ -1,4 +1,3 @@
-import { HStack, IconButton } from '@chakra-ui/react'
 import {
   FiChevronLeft,
   FiChevronRight,
@@ -6,6 +5,7 @@ import {
   FiChevronsRight,
 } from 'react-icons/fi'
 import { usePagination } from '../hooks/usePagination'
+import { Button } from './ui/button'
 
 export function Pagination() {
   const {
@@ -34,35 +34,42 @@ export function Pagination() {
   }
 
   return (
-    <HStack mt="1rem" justifyContent="flex-end" spacing={2}>
-      <IconButton
+    <div className="mt-4 mr-12 flex items-center justify-end gap-2">
+      <Button
         onClick={handleGoToFirstPage}
-        isDisabled={page <= 1}
-        colorScheme="teal"
-        aria-label="First page"
-        icon={<FiChevronsLeft />}
-      />
-      <IconButton
+        disabled={page <= 1}
+        variant="outline"
+        size="icon"
+      >
+        <FiChevronsLeft />
+      </Button>
+
+      <Button
         onClick={handleGoToPreviousPage}
-        isDisabled={page <= 1}
-        colorScheme="teal"
-        aria-label="Previous page"
-        icon={<FiChevronLeft />}
-      />
-      <IconButton
+        disabled={page <= 1}
+        variant="outline"
+        size="icon"
+      >
+        <FiChevronLeft />
+      </Button>
+
+      <Button
         onClick={handleGoToNextPage}
-        isDisabled={page === pagination?.totalPages}
-        colorScheme="teal"
-        aria-label="Next page"
-        icon={<FiChevronRight />}
-      />
-      <IconButton
+        disabled={page === pagination?.totalPages}
+        variant="outline"
+        size="icon"
+      >
+        <FiChevronRight />
+      </Button>
+
+      <Button
         onClick={handleGoToLastPage}
-        isDisabled={page === pagination?.totalPages}
-        colorScheme="teal"
-        aria-label="Last page"
-        icon={<FiChevronsRight />}
-      />
-    </HStack>
+        disabled={page === pagination?.totalPages}
+        variant="outline"
+        size="icon"
+      >
+        <FiChevronsRight />
+      </Button>
+    </div>
   )
 }

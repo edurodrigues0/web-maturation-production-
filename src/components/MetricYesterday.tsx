@@ -1,6 +1,4 @@
-import { Divider, Flex, Grid, Text } from "@chakra-ui/react";
-
-type ProductionType = "Alcool" | "Finaltrim" | "DoubleSidedGlue"
+type ProductionType = 'Alcool' | 'Finaltrim' | 'DoubleSidedGlue'
 
 type MetricYesterdayProps = {
   type?: ProductionType
@@ -14,8 +12,7 @@ export function MetricYesterday({
   averangeTotal = 0,
   totalOfPieces = 0,
 }: MetricYesterdayProps) {
-  
-  function productionType (type: ProductionType) {
+  function productionType(type: ProductionType) {
     if (type === 'DoubleSidedGlue') {
       return 'Dois lados'
     }
@@ -33,89 +30,27 @@ export function MetricYesterday({
   const averange = totalOfPieces / averangeTotal
 
   return (
-    <Grid
-      p="0.5rem"
-      rounded="6px"
-      bg="background"
-      templateColumns="repeat(5, 1fr)"
-    >
-      <Flex
-        flexDir="column" 
-        gap="0.25rem"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Text 
-          fontWeight="bold"
-          fontSize="0.825rem"
-          color="text"
-        >
-          { isTypeAlcool }
-        </Text>
+    <div className="grid grid-cols-5 flex-1 bg-slate-500 rounded-md px-4">
+      <div className="flex flex-col gap-1 items-center justify-center">
+        <span className="text-bold text-sm">{isTypeAlcool}</span>
+        <span className="text-bold text-xl">{convertedInLiters}</span>
+      </div>
 
-        <Text
-          fontWeight="bold"
-          fontSize="1.25rem"
-        >
-          { convertedInLiters }L 
-        </Text>
-      </Flex>
+      <div className="border-r-2 border-background mx-auto" />
 
-      <Divider 
-        orientation="vertical"
-        borderColor="primary"
-        mx="auto"
-      />
+      <div className="flex flex-col gap-1 items-center justify-center">
+        <span className="text-bold text-sm">Total de pçs</span>
+        <span className="text-bold text-xl">{totalOfPieces}</span>
+      </div>
 
-      <Flex
-        flexDir="column" 
-        gap="0.5rem"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Text 
-          fontWeight="bold"
-          fontSize="0.825rem"
-          color="text"
-        >
-          Total de pçs
-        </Text>
+      <div className="border-r-2 border-background mx-auto" />
 
-        <Text
-          fontWeight="bold"
-          fontSize="1.25rem"
-        >
-          { totalOfPieces }
-        </Text>
-      </Flex>
-
-      <Divider 
-        orientation="vertical"
-        borderColor="primary"
-        mx="auto"
-      />
-
-      <Flex
-        flexDir="column" 
-        gap="0.5rem"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Text 
-          fontWeight="bold"
-          fontSize="0.825rem"
-          color="text"
-        >
-          Média por pç
-        </Text>
-
-        <Text
-          fontWeight="bold"
-          fontSize="1.25rem"
-        >
-          { averange >= 1 ? averange : 0 }L
-        </Text>
-      </Flex>
-    </Grid>
+      <div className="flex flex-col gap-1 items-center justify-center pr-4">
+        <span className="text-bold text-sm">Média por pç</span>
+        <span className="text-bold text-xl">
+          {averange >= 1 ? averange : 0}L
+        </span>
+      </div>
+    </div>
   )
 }
